@@ -6,6 +6,8 @@ for desktop and mobile devices and even differentiate between regular and retina
 
 SmartImages also brings a basic lazy loading functionality that helps reducing the initial load impact of your website.
 
+This library has absolutely no dependencies and weights way under 1000 bytes if delivered with gzip compression.
+
 
 ##How it works
 To make use of the smart loading behaviour, you need to leave the `src` property of your image empty. This way you
@@ -24,11 +26,11 @@ You can define up to four image sources on your image tag like so:
 
 Note how the `src` property is completely omitted here so the browser won't download anything by himself.
 
-You can simply include the SmartImages library at the bottom of the page and forget about it. You don't need anymore
-   configuration:
+You can simply include the SmartImages library at the bottom of the page and forget about it. 
+You don't need any more configuration:
    
 ````html
-<script type="text/html" src="smartImages.min.js"></script>
+<script type="text/javascript" src="smartImages.min.js"></script>
 ````
 
 The library will check the browser and then apply the needed image sources for the current environment.
@@ -67,7 +69,7 @@ initialize the library as usual.
 Here's an example:
 
 ````html
-<script type="text/html" src="smartImages.min.js"></script>
+<script type="text/javascript" src="smartImages.min.js"></script>
 <script>
 	smartImages.noAutoInit();
 </script>
