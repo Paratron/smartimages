@@ -44,6 +44,9 @@ manually, if desired.
 Heads up: SmartImages will dynamically swap image sources when you resize the browser window
 and cross the border defined in the media query.
 
+If you want certain images to be ignored by the lib, simply add the `data-smart-ignore` attribute to the image tag
+and SmartImages will _not_ replace the sources automatically, even if data-src definitions are present.
+
 
 ##Using the lazy loader
 Sometimes you want to reduce the initial loading impact of your website - especially when
@@ -89,3 +92,10 @@ Here's an example:
 ````
 
 Notice how I applied the `init()` method to the `onload` event of the image.
+
+##Custom methods
+
+You can use the method `smartImages.manualAssign(domElement)` to manually assign the source of an image once.
+
+There is also a method `smartImages.getSrc(domElement)` that will just return the source, SmartImages would select
+in the very moment and returns it as a string.

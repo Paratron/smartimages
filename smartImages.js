@@ -8,7 +8,7 @@
  * - Adding lazy loading to images to only load when they come near the viewport.
  *
  * @author: Christian Engel <hello@wearekiss.com>
- * @version: 2 (10.11.2016)
+ * @version: 2.1 (14.11.2016)
  */
 (function () {
     'use strict';
@@ -31,7 +31,11 @@
         processImages();
     }
 
-    function assign(img, scrollTop, lazyBorder) {
+    function assign(img, scrollTop, lazyBorder, force, justSrc) {
+        if(img.getAttribute('data-smart-ignore') !== null && !force){
+            return;
+        }
+
         var o = {
             src1x: img.getAttribute('data-src'),
             src2x: img.getAttribute('data-src-2x'),
@@ -70,6 +74,10 @@
             }
         }
 
+        if(justSrc){
+            return src || '';
+        }
+
         if (src === null) {
             return;
         }
@@ -84,7 +92,7 @@
         lazyBorder = scrollTop + (window.innerHeight * 1.5);
 
         for (var i = 0; i < document.images.length; i++) {
-            assign(document.images[i], scrollTop, lazyBorder);
+            assign(document.images[i], scrollTop, lazyBorder, false, false);
         }
 
         if (hasLazyImages && !scrollListening) {
@@ -96,8 +104,11 @@
         }
     }
 
+    /**
+     * This processes all images on the page for the first time and also sets up
+     * the event listener for the media query to react on scaling.
+     */
     smartImages.init = function () {
-        //Process all images for the first time.
         processImages();
 
         //React on the mobile media query and attach event listeners.
@@ -108,12 +119,28 @@
         console.log('Images are smart, now.');
     };
 
+    /**
+     * Prevent the automatic initialization and replacement of all image sources in the document.
+     */
     smartImages.noAutoInit = function () {
         autoInit = false;
     };
 
+    /**
+     * Manually perform the assignation of the smart image source ONCE on the given element.
+     * @param elm
+     */
     smartImages.manualAssign = function(elm){
-        assign(elm, 0, 0);
+        assign(elm, 0, 0, true, false);
+    };
+
+    /**
+     * Just get the the source that would currently apply for an image without setting it.
+     * @param elm
+     * @returns string
+     */
+    smartImages.getSrc = function(elm){
+        return assign(elm, 0, 0, true, true);
     };
 
     window.addEventListener('load', function(){
