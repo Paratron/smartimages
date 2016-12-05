@@ -45,11 +45,12 @@ Heads up: SmartImages will dynamically swap image sources when you resize the br
 and cross the border defined in the media query.
 
 If you want certain images to be ignored by the lib, simply add the `data-smart-ignore` attribute to the image tag
-and SmartImages will _not_ replace the sources automatically, even if data-src definitions are present.
+and SmartImages will _not_ replace the sources automatically, even if data-src definitions are present.    
+You only need to apply this to images where you have defined `data-src...` attributes but want the library to leave them alone.
 
 ##How it works for containers
 The library supports smart background image loading since version 2.3. The functionality behaves very much like with
-the image tags - the only difference ist, that you need to additionally apply the attribute `data-smartImageContainer`
+the image tags - the only difference is that you need to additionally apply the attribute `data-smartImageContainer`
 to any containers that should be recognized by the library.
 
 ````html
@@ -66,7 +67,7 @@ to any containers that should be recognized by the library.
 
 Lazy loading is also supported for container backgrounds.
 
-Instead of just defining a image URL, you can put everything into the src attributes that would be a valid css background-image value.
+Instead of just defining an image URL, you can put everything into the src attributes that would be a [valid css `background-image` value](https://developer.mozilla.org/en/docs/Web/CSS/background-image).
 This is especially handy when you want to define multiple background images.
 
 
