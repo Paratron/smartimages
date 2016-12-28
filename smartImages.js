@@ -8,10 +8,11 @@
  * - Adding lazy loading to images to only load when they come near the viewport.
  * - Added option to pre-define the future image sizes so the layout will be preserved for lazy images.
  * - Implemented functionality for background images of containers.
+ * - Implemented functionality of custom query and source
  *
  * @url: https://github.com/Paratron/smartimages
  * @author: Christian Engel <hello@wearekiss.com>
- * @version: 2.3 (05.12.2016)
+ * @version: 2.4 (28.12.2016)
  */
 (function () {
     'use strict';
@@ -24,7 +25,8 @@
         autoInit = true,
         scrollListening = false,
         hasLazyImages = false,
-        hasLazyContainers = false;
+        hasLazyContainers = false,
+        customQueries = {};
 
     isRetina = window.matchMedia('(-webkit-min-device-pixel-ratio: 1.25),(min-resolution: 120dpi)').matches;
 
@@ -41,6 +43,23 @@
 
         processImages(scrollTop, lazyBorder);
         processContainers(scrollTop, lazyBorder);
+    }
+
+    /**
+     * Attached to custom queries.
+     * @param elm
+     */
+    function customResponsiveHandler(elm) {
+        var scrollTop, lazyBorder;
+
+        scrollTop = document.body.scrollTop;
+        lazyBorder = scrollTop + (window.innerHeight * 1.5);
+
+        if(elm.nodeName === 'IMG'){
+            assignImg(elm, scrollTop, lazyBorder, false, false);
+            return;
+        }
+        assignContainer(elm, scrollTop, lazyBorder, false, false);
     }
 
     /**
@@ -61,6 +80,9 @@
             size2x: elm.getAttribute('data-size-2x'),
             size1x_mobile: elm.getAttribute('data-size-mobile'),
             size2x_mobile: elm.getAttribute('data-size-mobile-2x'),
+            custom: elm.getAttribute('data-src-custom'),
+            customQuery: elm.getAttribute('data-match-custom-id'),
+            customSize: elm.getAttribute('data-size-custom'),
             lazy: elm.getAttribute('data-lazy') !== null
         };
 
@@ -101,6 +123,13 @@
             if (isRetina && o.src2x !== null) {
                 src = o.src2x;
                 size = o.size2x;
+            }
+        }
+
+        if (o.custom && o.customQuery) {
+            if (customQueries[o.customQuery].matches) {
+                src = o.custom;
+                size = o.customSize;
             }
         }
 
@@ -191,8 +220,21 @@
      * @param lazyBorder
      */
     function processImages(scrollTop, lazyBorder) {
+        var img, imgId;
+
         for (var i = 0; i < document.images.length; i++) {
-            assignImg(document.images[i], scrollTop, lazyBorder, false, false);
+            img = document.images[i];
+
+            if (img.getAttribute('data-match-custom') && !img.getAttribute('data-match-custom-id')) {
+                imgId = Math.random().toString().split('.')[1];
+                img.setAttribute('data-match-custom-id', imgId);
+                customQueries[imgId] = window.matchMedia(img.getAttribute('data-match-custom'));
+                customQueries[imgId].addListener(function () {
+                    customResponsiveHandler(img);
+                });
+            }
+
+            assignImg(img, scrollTop, lazyBorder, false, false);
         }
 
         if (hasLazyImages && !scrollListening) {
@@ -212,10 +254,23 @@
      * @param lazyBorder
      */
     function processContainers(scrollTop, lazyBorder) {
+        var elm, elmId;
+
         var elms = document.querySelectorAll('[data-smartImageContainer]');
 
         for (var i = 0; i < elms.length; i++) {
-            assignContainer(elms[i], scrollTop, lazyBorder, false, false);
+            elm = elms[i];
+
+            if (elm.getAttribute('data-match-custom') && !elm.getAttribute('data-match-custom-id')) {
+                var imgId = Math.random().toString().split('.')[1];
+                elm.setAttribute('data-match-custom-id', imgId);
+                customQueries[imgId] = window.matchMedia(elm.getAttribute('data-match-custom'));
+                customQueries[imgId].addListener(function () {
+                    customResponsiveHandler(elm);
+                });
+            }
+
+            assignContainer(elm, scrollTop, lazyBorder, false, false);
         }
 
         if (hasLazyContainers && !scrollListening) {
@@ -234,7 +289,7 @@
     smartImages.init = function () {
         var scrollTop, lazyBorder;
 
-        if(initDone){
+        if (initDone) {
             return;
         }
 
@@ -269,7 +324,7 @@
      * @param elm
      */
     smartImages.manualAssign = function (elm) {
-        if(elm instanceof Image){
+        if (elm instanceof Image) {
             assignImg(elm, 0, 0, true, false);
         } else {
             assignContainer(elm, 0, 0, true, false);
@@ -290,7 +345,7 @@
      * @param elm
      * @returns string
      */
-    smartImages.getBackground = function(elm){
+    smartImages.getBackground = function (elm) {
         return assignContainer(elm, 0, 0, true, true);
     };
 

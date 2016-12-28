@@ -6,7 +6,7 @@ for desktop and mobile devices and even differentiate between regular and retina
 
 SmartImages also brings a basic lazy loading functionality that helps reducing the initial load impact of your website.
 
-This library has absolutely no dependencies and weights way under 1000 bytes if delivered with gzip compression.
+This library has absolutely no dependencies and weights about 1000 bytes if delivered with gzip compression.
 
 
 ##How it works for image elements
@@ -158,3 +158,21 @@ You can use the method `smartImages.manualAssign(domElement)` to manually assign
 
 There is also a method `smartImages.getSrc(domElement)` that will just return the source, SmartImages would select
 in the very moment and returns it as a string. For containers, use the method `smartImages.getBackground(domElement)`.
+
+##Custom media query and source
+
+Since version 2.4, you can define a custom media query for images and containers to be matched.
+
+Be careful: a custom query will always override other decisions of the library, if it matches.
+
+To use a custom query, simply add the following attributes to your image or container:
+
+````html
+<img
+	data-src-custom="myCustomImage.jpg"
+	data-match-custom="(min-width: 650px) and (max-width: 1400px)"
+	data-size-custom="1400x200"
+>
+````
+
+The size attribute is optional, as usual.
