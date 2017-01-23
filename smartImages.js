@@ -12,7 +12,7 @@
  *
  * @url: https://github.com/Paratron/smartimages
  * @author: Christian Engel <hello@wearekiss.com>
- * @version: 2.4.1 (20.01.2017)
+ * @version: 2.4.2 (23.01.2017)
  */
 (function () {
     'use strict';
@@ -55,7 +55,7 @@
         scrollTop = document.body.scrollTop;
         lazyBorder = scrollTop + (window.innerHeight * 1.5);
 
-        if(elm.nodeName === 'IMG'){
+        if (elm.nodeName === 'IMG') {
             assignImg(elm, scrollTop, lazyBorder, false, false);
             return;
         }
@@ -134,7 +134,7 @@
         }
 
         if (o.lazy) {
-            if (elm instanceof Image) {
+            if (elm.tagName.toUpperCase() === 'IMG') {
                 hasLazyImages = true;
             } else {
                 hasLazyContainers = true;
@@ -229,9 +229,9 @@
                 imgId = Math.random().toString().split('.')[1];
                 img.setAttribute('data-match-custom-id', imgId);
                 customQueries[imgId] = window.matchMedia(img.getAttribute('data-match-custom'));
-                customQueries[imgId].addListener(function () {
+                customQueries[imgId].addListener((function (img) {
                     customResponsiveHandler(img);
-                });
+                })(img));
             }
 
             assignImg(img, scrollTop, lazyBorder, false, false);
@@ -239,10 +239,7 @@
 
         if (hasLazyImages && !scrollListening) {
             scrollListening = true;
-            window.addEventListener('scroll', function () {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(processImages, 100);
-            });
+            window.addEventListener('scroll', observeLazy);
         }
     }
 
@@ -275,11 +272,23 @@
 
         if (hasLazyContainers && !scrollListening) {
             scrollListening = true;
-            window.addEventListener('scroll', function () {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(processContainers, 100);
-            });
+            window.addEventListener('scroll', observeLazy);
         }
+    }
+
+    function observeLazy() {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(function () {
+            var scrollTop = document.body.scrollTop,
+                lazyBorder = scrollTop + (window.innerHeight * 1.5);
+
+            if (hasLazyImages) {
+                processImages(scrollTop, lazyBorder);
+            }
+            if (hasLazyContainers) {
+                processContainers(scrollTop, lazyBorder);
+            }
+        }, 100);
     }
 
     /**
