@@ -12,7 +12,7 @@
  *
  * @url: https://github.com/Paratron/smartimages
  * @author: Christian Engel <hello@wearekiss.com>
- * @version: 2.4.3 (30.01.2017)
+ * @version: 2.4.4 (30.01.2017)
  */
 (function () {
     'use strict';
@@ -176,7 +176,7 @@
         var src = getSrc(elm, scrollTop, lazyBorder, justSrc);
 
         if (src !== null) {
-            elm.style.backgroundImage = 'url(' + src + ')';
+            elm.style.backgroundImage = src.substr(0, 4) === 'url(' ? src : 'url(' + src + ')';
         }
     }
 
