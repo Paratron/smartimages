@@ -12,7 +12,7 @@
  *
  * @url: https://github.com/Paratron/smartimages
  * @author: Christian Engel <hello@wearekiss.com>
- * @version: 2.4.2 (23.01.2017)
+ * @version: 2.4.3 (30.01.2017)
  */
 (function () {
     'use strict';
@@ -30,7 +30,7 @@
 
     isRetina = window.matchMedia('(-webkit-min-device-pixel-ratio: 1.25),(min-resolution: 120dpi)').matches;
 
-    smartImages = window.smartImages = window.smartImages || {};
+    window['smartImages'] = smartImages = window['smartImages'] || {};
     smartImages.mediaQuery = smartImages.mediaQuery || '(max-width: 650px)';
 
     function responsiveHandler(e) {
@@ -295,7 +295,7 @@
      * This processes all images and containers on the page for the first time and also sets up
      * the event listener for the media query to react on scaling.
      */
-    smartImages.init = function () {
+    smartImages['init'] = function () {
         var scrollTop, lazyBorder;
 
         if (initDone) {
@@ -324,7 +324,7 @@
     /**
      * Prevent the automatic initialization and replacement of all image sources in the document.
      */
-    smartImages.noAutoInit = function () {
+    smartImages['noAutoInit'] = function () {
         autoInit = false;
     };
 
@@ -332,7 +332,7 @@
      * Manually perform the assignation of the smart image source ONCE on the given element.
      * @param elm
      */
-    smartImages.manualAssign = function (elm) {
+    smartImages['manualAssign'] = function (elm) {
         if (elm instanceof Image) {
             assignImg(elm, 0, 0, true, false);
         } else {
@@ -345,7 +345,7 @@
      * @param elm
      * @returns string
      */
-    smartImages.getSrc = function (elm) {
+    smartImages['getSrc'] = function (elm) {
         return assignImg(elm, 0, 0, true, true);
     };
 
@@ -354,13 +354,13 @@
      * @param elm
      * @returns string
      */
-    smartImages.getBackground = function (elm) {
+    smartImages['getBackground'] = function (elm) {
         return assignContainer(elm, 0, 0, true, true);
     };
 
     window.addEventListener('load', function () {
         if (autoInit === true) {
-            smartImages.init();
+            smartImages['init']();
         }
     });
 })();
