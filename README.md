@@ -8,6 +8,7 @@ SmartImages also brings a basic lazy loading functionality that helps reducing t
 
 This library has absolutely no dependencies and weights about 1000 bytes if delivered with gzip compression.
 
+You can find a test/demo document, [here](https://wearekiss.com/lab/smartImages/test/).
 
 ##How it works for image elements
 To make use of the smart loading behaviour, you need to leave the `src` property of your image empty. This way you

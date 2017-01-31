@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>SmartImages test document</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #666;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        @media screen and (max-width: 1020px){
+            body{
+                margin: 0 20px;
+            }
+        }
+
+        h1, h2, h3 {
+            color: #333;
+        }
+
+        hr{
+            border: none;
+            height: 1px;
+            background: #333;
+        }
+
+        img{
+            display: block;
+            width: 100%;
+        }
+    </style>
+    <script src="../smartImages.js"></script>
+</head>
+<body>
+<h1>SmartImages Test</h1>
+<p>
+    This document is used to test out the functionality of the smartImage library.
+</p>
+<p>
+    Feel free to scale the page and even go down mobile size - or open it on a retina device.
+</p>
+
+<p>
+    <a href="index.min.html">Test the minified version of smartImages</a>
+</p>
+
+<hr>
+
+<p>
+    The following is <em>one</em> image tag that changes its souce depending on the viewport.
+</p>
+
+<img
+        data-src="desktop.png?test1"
+        data-src-mobile="mobile.png?test1"
+        data-src-mobile-2x="mobile-2x.png?test1"
+/>
+
+<p>
+    This image is directly assigned (check your console, it should be loaded at first):
+</p>
+
+<img
+        id="fastImg"
+        data-src="desktop.png?test2"
+        data-src-mobile="mobile.png?test2"
+        data-src-mobile-2x="mobile-2x.png?test2"
+/>
+<script>
+    smartImages.manualAssign(document.getElementById('fastImg'));
+</script>
+
+<p>
+    The next image is lazy-loaded and uses dummy images to keep the browser from reflowing the document:
+</p>
+
+<p>
+    We need a bit space here, so the img won't be loaded directly =)<br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</p>
+
+<img
+        data-src="desktop.png?test3"
+        data-size="980x400"
+        data-src-mobile="mobile.png?test3"
+        data-size-mobile="320x150"
+        data-src-mobile-2x="mobile-2x.png?test3"
+        data-size-mobile-2x="640x300"
+        data-lazy
+/>
+<p>
+    The following image has an additional custom source that is only displayed when the expression <code>(min-width: 640px) and (max-width: 750px)</code> applies.
+</p>
+<img
+        data-src="desktop.png?test4"
+        data-size="980x400"
+        data-src-mobile="mobile.png?test4"
+        data-size-mobile="320x150"
+        data-src-mobile-2x="mobile-2x.png?test4"
+        data-size-mobile-2x="640x300"
+        data-src-custom="custom.png?test4"
+        data-size-custom="750x400"
+        data-match-custom="(min-width: 640px) and (max-width: 750px)"
+        data-lazy
+/>
+</body>
+</html>
