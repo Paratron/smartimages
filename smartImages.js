@@ -12,7 +12,7 @@
  *
  * @url: https://github.com/Paratron/smartimages
  * @author: Christian Engel <hello@wearekiss.com>
- * @version: 2.4.4 (30.01.2017)
+ * @version: 2.4.5 (31.01.2017)
  */
 (function () {
     'use strict';
@@ -230,7 +230,9 @@
                 img.setAttribute('data-match-custom-id', imgId);
                 customQueries[imgId] = window.matchMedia(img.getAttribute('data-match-custom'));
                 customQueries[imgId].addListener((function (img) {
-                    customResponsiveHandler(img);
+                    return function(){
+                        customResponsiveHandler(img);
+                    };
                 })(img));
             }
 
@@ -277,8 +279,12 @@
     }
 
     function observeLazy() {
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(function () {
+        if(scrollTimeout){
+            return;
+        }
+        scrollTimeout = true;
+        setTimeout(function () {
+            scrollTimeout = false;
             var scrollTop = document.body.scrollTop,
                 lazyBorder = scrollTop + (window.innerHeight * 1.5);
 
