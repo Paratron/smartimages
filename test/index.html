@@ -12,8 +12,8 @@
             margin: 0 auto;
         }
 
-        @media screen and (max-width: 1020px){
-            body{
+        @media screen and (max-width: 1020px) {
+            body {
                 margin: 0 20px;
             }
         }
@@ -22,13 +22,13 @@
             color: #333;
         }
 
-        hr{
+        hr {
             border: none;
             height: 1px;
             background: #333;
         }
 
-        img{
+        img {
             display: block;
             width: 100%;
         }
@@ -75,6 +75,30 @@
 </script>
 
 <p>
+    This is an container that loads its background image with smartImages
+</p>
+
+<div
+        style="width: 100%; height: 400px; background-size: cover;"
+        data-smartImageContainer
+        data-src="desktop.png?test3"
+        data-src-mobile="mobile.png?test3"
+        data-src-mobile-2x="mobile-2x.png?test3"
+></div>
+
+<p>
+    You can even load multiple background images into an container:
+</p>
+
+<div
+        style="width: 100%; height: 400px; background-color: #000; background-repeat: no-repeat; background-position: top left, bottom right; background-size: 50%, 50%;"
+        data-smartImageContainer
+        data-src='url("desktop.png?test4"), url(custom.png?test4)'
+        data-src-mobile='url("mobile.png?test4"), url(custom.png?test4)'
+        data-src-mobile-2x='url("mobile-2x.png?test4"), url(custom.png?test4)'
+></div>
+
+<p>
     The next image is lazy-loaded and uses dummy images to keep the browser from reflowing the document:
 </p>
 
@@ -85,25 +109,26 @@
 </p>
 
 <img
-        data-src="desktop.png?test3"
+        data-src="desktop.png?test5"
         data-size="980x400"
-        data-src-mobile="mobile.png?test3"
+        data-src-mobile="mobile.png?test5"
         data-size-mobile="320x150"
-        data-src-mobile-2x="mobile-2x.png?test3"
+        data-src-mobile-2x="mobile-2x.png?test5"
         data-size-mobile-2x="640x300"
         data-lazy
 />
 <p>
-    The following image has an additional custom source that is only displayed when the expression <code>(min-width: 640px) and (max-width: 750px)</code> applies.
+    The following image has an additional custom source that is only displayed when the expression <code>(min-width:
+    640px) and (max-width: 750px)</code> applies.
 </p>
 <img
-        data-src="desktop.png?test4"
+        data-src="desktop.png?test6"
         data-size="980x400"
-        data-src-mobile="mobile.png?test4"
+        data-src-mobile="mobile.png?test6"
         data-size-mobile="320x150"
-        data-src-mobile-2x="mobile-2x.png?test4"
+        data-src-mobile-2x="mobile-2x.png?test6"
         data-size-mobile-2x="640x300"
-        data-src-custom="custom.png?test4"
+        data-src-custom="custom.png?test6"
         data-size-custom="750x400"
         data-match-custom="(min-width: 640px) and (max-width: 750px)"
         data-lazy
