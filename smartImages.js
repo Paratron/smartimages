@@ -9,10 +9,11 @@
  * - Added option to pre-define the future image sizes so the layout will be preserved for lazy images.
  * - Implemented functionality for background images of containers.
  * - Implemented functionality of custom query and source
+ * - Implemented application on any DOM node (i.e. iframes)
  *
  * @url: https://github.com/Paratron/smartimages
  * @author: Christian Engel <hello@wearekiss.com>
- * @version: 2.4.5 (31.01.2017)
+ * @version: 2.5.0 (07.02.2017)
  */
 (function () {
     'use strict';
@@ -127,7 +128,7 @@
         }
 
         if (o.custom && o.customQuery) {
-            if (customQueries[o.customQuery].matches) {
+            if (customQueries[o.customQuery] && customQueries[o.customQuery].matches) {
                 src = o.custom;
                 size = o.customSize;
             }
@@ -195,7 +196,7 @@
 
         var src = getSrc(img, scrollTop, lazyBorder, justSrc);
 
-        if (src !== null) {
+        if (src !== null && img.src !== src) {
             img.src = src;
         }
     }
@@ -220,10 +221,18 @@
      * @param lazyBorder
      */
     function processImages(scrollTop, lazyBorder) {
-        var img, imgId;
+        var img, imgId, entities;
 
-        for (var i = 0; i < document.images.length; i++) {
-            img = document.images[i];
+        if(document.querySelectorAll){
+            entities = Array.prototype.concat(
+                Array.prototype.slice.call(document.images),
+                Array.prototype.slice.call(document.querySelectorAll('[data-smartEntity]')));
+        } else {
+            entities = document.images;
+        }
+
+        for (var i = 0; i < entities.length; i++) {
+            img = entities[i];
 
             if (img.getAttribute('data-match-custom') && !img.getAttribute('data-match-custom-id')) {
                 imgId = Math.random().toString().split('.')[1];

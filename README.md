@@ -177,3 +177,22 @@ To use a custom query, simply add the following attributes to your image or cont
 ````
 
 The size attribute is optional, as usual.
+
+##Usage on non-image DOM nodes
+Normally, smartImages will only process image tags. If you apply the `data-smartImageContainer` attribute to a container,
+smartImages will manage the background image styles of that container.
+
+Since version 2.5.0, you can force smartImages to apply its functionality to any other DOM node, even if its not an image by
+adding the attribute `data-smartEntity`.
+
+This means, you can for example lazy load an embedded google map inside of an iframe:
+
+````html
+<iframe
+	style="width: 100%;height: 500px;border: none;"
+	data-smartEntity
+	data-lazy
+	data-src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d163720.5843738355!2d8.6365638!3d50.121212!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sde!2sde!4v1486502861858"></iframe>
+````
+
+You could even load a different source into the iframe depending on the viewport size - but we're drifting off, here ;)
