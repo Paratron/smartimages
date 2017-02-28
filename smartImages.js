@@ -13,7 +13,7 @@
  *
  * @url: https://github.com/Paratron/smartimages
  * @author: Christian Engel <hello@wearekiss.com>
- * @version: 2.5.0 (07.02.2017)
+ * @version: 2.5.1 (28.02.2017)
  */
 (function () {
     'use strict';
@@ -348,10 +348,10 @@
      * @param elm
      */
     smartImages['manualAssign'] = function (elm) {
-        if (elm instanceof Image) {
-            assignImg(elm, 0, 0, true, false);
+        if (elm instanceof Image || elm.nodeName === 'IMG') {
+            assignImg(elm, document.body.scrollTop, (document.body.scrollTop + (window.innerHeight * 1.5)), true, false);
         } else {
-            assignContainer(elm, 0, 0, true, false);
+            assignContainer(elm, document.body.scrollTop, (document.body.scrollTop + (window.innerHeight * 1.5)), true, false);
         }
     };
 
