@@ -10,7 +10,7 @@ This library has absolutely no dependencies and weights about 1000 bytes if deli
 
 You can find a test/demo document, [here](https://wearekiss.com/lab/smartImages/test/).
 
-##How it works for image elements
+## How it works for image elements
 To make use of the smart loading behaviour, you need to leave the `src` property of your image empty. This way you
 are preventing the browser from directly starting to download the image contents upon pageload.
 
@@ -49,7 +49,7 @@ If you want certain images to be ignored by the lib, simply add the `data-smart-
 and SmartImages will _not_ replace the sources automatically, even if data-src definitions are present.    
 You only need to apply this to images where you have defined `data-src...` attributes but want the library to leave them alone.
 
-##How it works for containers
+## How it works for containers
 The library supports smart background image loading since version 2.3. The functionality behaves very much like with
 the image tags - the only difference is that you need to additionally apply the attribute `data-smartImageContainer`
 to any containers that should be recognized by the library.
@@ -72,14 +72,14 @@ Instead of just defining an image URL, you can put everything into the src attri
 This is especially handy when you want to define multiple background images.
 
 
-##Using the lazy loader
+## Using the lazy loader
 Sometimes you want to reduce the initial loading impact of your website - especially when
  its using a LOT of image data. You can do so by applying the attribute `data-lazy` to your
  images. When the attribute is present, SmartImages will only start to download the images
  when they get near the viewport of the browser. Rule of thumb: everything below
  scrollPos + (screenHeight * 1.5) is not downloaded yet.
  
-###Preserving the layout with lazy images
+### Preserving the layout with lazy images
 If you leave the `src` attribute of your image tags empty, they will collapse and can possibly mess up your
  document layout. Not only would every freshly loaded lazy image cause your document to re-align and completely redrawn,
  it will also mess with the lazy loading functionality itself, since the lazy loader looks for the positions of the images
@@ -115,7 +115,7 @@ This works for container backgrounds as well but is probably not as important th
 with container dimensions.
 
   
-##Intercepting initialization
+## Intercepting initialization
 By default, SmartImages listens to the body.load event and will initialize when everything
 else on your page has been loaded. You can disable that behaviour.
 
@@ -153,14 +153,14 @@ Here's an example:
 
 Notice how I applied the `init()` method to the `onload` event of the image.
 
-##Custom methods
+## Custom methods
 
 You can use the method `smartImages.manualAssign(domElement)` to manually assign the source/background of an image or container once.
 
 There is also a method `smartImages.getSrc(domElement)` that will just return the source, SmartImages would select
 in the very moment and returns it as a string. For containers, use the method `smartImages.getBackground(domElement)`.
 
-##Custom media query and source
+## Custom media query and source
 
 Since version 2.4, you can define a custom media query for images and containers to be matched.
 
@@ -178,7 +178,7 @@ To use a custom query, simply add the following attributes to your image or cont
 
 The size attribute is optional, as usual.
 
-##Usage on non-image DOM nodes
+## Usage on non-image DOM nodes
 Normally, smartImages will only process image tags. If you apply the `data-smartImageContainer` attribute to a container,
 smartImages will manage the background image styles of that container.
 
